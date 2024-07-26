@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scaling Sequence Calculator</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="mb-4">Scaling Sequence Calculator</h1>
+    <form id="sequenceForm">
+      <div class="form-group">
+        <label for="startValue">Start Value</label>
+        <input type="number" class="form-control" id="startValue" required>
+      </div>
+      <div class="form-group">
+        <label for="endValue">End Value</label>
+        <input type="number" class="form-control" id="endValue" required>
+      </div>
+      <div class="form-group">
+        <label for="numValues">Number of Values</label>
+        <input type="number" class="form-control" id="numValues" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Calculate</button>
+    </form>
+    <h2 class="mt-4">Calculated Sequence</h2>
+    <ul id="sequenceList" class="list-group mt-2"></ul>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    document.getElementById('sequenceForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const startValue = parseFloat(document.getElementById('startValue').value);
+      const endValue = parseFloat(document.getElementById('endValue').value);
+      const numValues = parseInt(document.getElementById('numValues').value);
+
+      if (numValues < 2) {
+        alert('Number of values must be at least 2.');
+        return;
+      }
+
+      const totalRange = endValue - startValue;
+      const sequence = [startValue];
+
+      for (let i = 1; i < numValues - 1; i++) {
+        const proportion = i / (numValues - 1);
+        const nextValue = startValue + totalRange * proportion;
+        sequence.push(nextValue);
+      }
+
+      sequence.push(endValue);
+
+      const sequenceList = document.getElementById('sequenceList');
+      sequenceList.innerHTML = '';
+      sequence.forEach(value => {
+        const listItem = document.createElement('li');
+        listItem.textContent = value.toFixed(2);
+        listItem.className = 'list-group-item';
+        sequenceList.appendChild(listItem);
+      });
+    });
+  </script>
+</body>
+</html>
